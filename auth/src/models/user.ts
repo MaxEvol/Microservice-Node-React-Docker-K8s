@@ -1,5 +1,5 @@
+import { Password } from "./../services/password";
 import mongoose from "mongoose";
-import { Password } from "../services/password";
 
 //Interface para descrever as propriedades de um novo usuario
 interface UserAttrs {
@@ -20,17 +20,30 @@ interface UserModel extends mongoose.Model<UserDoc> {
 }
 
 //schema do documento do banco
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-});
-
+  //formata a saida do objeto removendo as propriedades que não dejesa visualizar e renomenado outras
+  {
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.password;
+        delete ret.__v;
+      },
+    },
+  }
+);
+//sempre que savar criptografa a senha
 userSchema.pre("save", async function (done) {
   if (this.isModified("password")) {
     const hashed = await Password.toHash(this.get("password"));
