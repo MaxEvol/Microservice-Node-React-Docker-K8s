@@ -1,3 +1,4 @@
+import { DatabaseConnectionError } from "./errors/database-connection-error";
 import { BadRequestError } from "./errors/bad-request-error";
 import express from "express";
 import "express-async-errors";
@@ -48,9 +49,9 @@ const start = async () => {
     });
     console.log("conectado na base de dados");
   } catch (err) {
-    console.log(err);
+    throw new DatabaseConnectionError();
   }
-  //porta express
+
   app.listen(3000, () => {
     console.log("Porta: 3000!");
   });

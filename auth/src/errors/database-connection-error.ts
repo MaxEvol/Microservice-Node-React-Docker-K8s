@@ -1,4 +1,3 @@
-import { ValidationError } from "express-validator";
 import { CustomError } from "./costum-error";
 
 export class DatabaseConnectionError extends CustomError {
