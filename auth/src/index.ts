@@ -12,13 +12,12 @@ const start = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log("conectado na base de dados");
   } catch (err) {
     console.log(err);
   }
 
   app.listen(3000, () => {
-    console.log("Porta: 3000!");
+    console.log("Express na Porta: 3000!");
   });
 };
 
